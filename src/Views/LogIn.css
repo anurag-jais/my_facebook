@@ -1,0 +1,32 @@
+.login-form {
+    position: relative;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0; 
+    padding:10px;
+  
+    max-width: 300px;
+}
+.login-form-forgot {
+    float: right;
+}
+.login-form-button {
+    width: 100%;
+}
+.login-form-container{
+    position: absolute;
+    margin: auto;
+    margin-top: 80px;
+    top: 0;
+    right: 0;
+    bottom: inherit;
+    left: 0; 
+    width: 500px;
+    height: inherit;
+    border: 2px solid #eee;  
+    box-shadow: 0 2px 3px #ccc;
+    box-sizing: border-box;
+    text-align: center;
+}

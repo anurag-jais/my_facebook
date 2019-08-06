@@ -1,6 +1,6 @@
 
-.header{
-    background-color: #3b5998;
+.head{
+     background-color: #3b5998;
 }
 
 .registration_form_container{
@@ -13,12 +13,16 @@
     left: 0; 
     width: 500px;
     height: inherit;
-    border: 2px solid black;  
+    border: 2px solid #eee;  
     box-shadow: 0 2px 3px #ccc;
     box-sizing: border-box;
     text-align: center;
 }
 
+h1{
+    text-align: center;
+    color: #e5e4d7;
+}
 
 
 .errMsg{

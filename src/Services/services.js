@@ -1,4 +1,5 @@
 const User = require('../Models/user');
+const Post = require('../Models/post');
 const bcrypt = require('bcryptjs');
  exports.getSignInFunc = (body,otp,hashedPassword)=>{ 
     const firstname = body.firstname;
@@ -36,23 +37,24 @@ exports.updatePasswordFunc = (body,updatedHashPassword)=>{
         {where : {useremail: body.useremail}
     })
 }
-// exports.deleteFunc = (id)=>{
-//     return User.deleteOne({id: id})
-// };
-// exports.filterAgeFunc = ()=>{
-//     return User.find()
-// }; 
-// exports.filterNameFunc = (name)=>{
-//     return User.find({name: name})
-// };
-// exports.filterAddressFunc =(address)=>{
-//     return User.find({address: {$regex : address}})
-// };
-// exports.filterProfessionFunc = (profession)=>{
-//     return User.find({profession: profession})
-// }; 
-//  exports.compoundfilterFunc = (queryBuilder)=>{
-//      return User.find(queryBuilder)
-//  };
+
+exports.findUserFunc= (userId)=>{
+    return User.findOne({
+        where: {
+            id: userId
+        }
+    })
+};
+
+exports.createPostFunc = (body,user)=>{
+    const Title = body.title;
+    const Content = body.content;
+    return Post.create({
+        Title: Title,
+        Content: Content,
+        id: user.id,
+        creator: user.firstname
+    })
+};
 
 

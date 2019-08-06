@@ -2,3 +2,20 @@
 .App {
   text-align: center;
 }
+.head{
+  background-color: #3b5998;
+}
+.content{
+ 
+  height: 100vh;
+}
+.icons{
+  margin-top: 150px;
+
+  line-height: 50px;
+  /* background-color: red; */
+}
+h1{
+  text-align: center;
+  color: #e5e4d7;
+}

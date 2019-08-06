@@ -1,4 +1,5 @@
 const User = require('../Models/user');
+const Post = require('../Models/post');
 const services = require('../Services/services');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
@@ -20,9 +21,11 @@ passport.use(new JwtStrategy(opts, function(jwt_payload, done) {
         }
     }).then(user=>{
         if(user){
+            console.log('user??????????>>>>>>>>>>>>>>>',user);
             return done(null,user);
         }
         else{
+            console.log('unauthenticated');
             return done(null, false);
         }
     }).catch(err=>{
@@ -319,12 +322,38 @@ exports.updatePassword = (req,res,next)=>{
 
 exports.verifyToken = (req,res,next)=>{
     console.log("i'm running");
-    //console.log("req----->>>>>>",req);
-    //console.log("res------>>>>>>>",res);
     res.send('Authenticated');
 
 }
 
+
+
+
+exports.createPost = (req,res,next)=>{
+    const userId = localStorage.getItem('userId');
+    services.findUserFunc(userId)
+    .then(user=>{
+        if(user){
+            console.log('userfound');
+            console.log(user);
+            services.createPostFunc(req.body,user)
+            .then(postcreated =>{
+                if(postcreated){
+                    console.log('post created');
+                }
+                else{
+                    console.log('post not created');
+                }
+            })
+            .catch(err=>{
+                console.log(err);
+            })
+        }
+    })
+    .catch(err=>{
+        console.log(err);
+    });
+}
 
 // exports.updateUser = (req,res,next)=>{
 //     services.updateFunc(req.params.id,req.body)

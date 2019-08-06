@@ -143,6 +143,21 @@ class Registration extends Component {
         callback();
     };
 
+    strongValidator = (rule,value, callback) =>{
+        console.log('running');
+        const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+        if(value && this.state.confirmDirty && value.match(strongRegex)){
+            callback();
+        }
+        else if(value){
+            callback("Invalid Password");
+        }
+        else{
+            callback();
+        }
+        
+    }
+
     render() {
         const { Header, Footer, Sider, Content } = Layout;
 
@@ -191,8 +206,8 @@ class Registration extends Component {
                 </div>
 
                 <Layout>
-                    <Header className="header">
-                        <h2>Create Your Account</h2>
+                    <Header className="head">
+                        <h1><Icon type="facebook" />&nbsp;Create Your Account</h1>
                     </Header>
                     <Content>
                         <div className="registration_form_container">
@@ -268,9 +283,26 @@ class Registration extends Component {
                                     />)}
                                 </Form.Item>
                                 <Form.Item label="Password"
-                                    
                                     hasFeedback>
-                                    {getFieldDecorator('userpassword', {
+                                    {getFieldDecorator('olduserpassword', {
+                                        rules: [
+                                            {
+                                                required: true,
+                                                message: 'Please input your password!',
+                                            },
+                                            {
+                                                validator: this.validateToNextPassword,
+                                            },
+                                            
+                                            {
+                                                validator: this.strongValidator
+                                            }
+                                        ],
+                                    })(<Input.Password />)}
+                                </Form.Item>
+                                <Form.Item label="New Password"
+                                    hasFeedback>
+                                    {getFieldDecorator('olduserpassword', {
                                         rules: [
                                             {
                                                 required: true,
@@ -280,13 +312,12 @@ class Registration extends Component {
                                                 validator: this.validateToNextPassword,
                                             },
                                             {
-                                                min: 8,
-                                                message: 'password should at least 8 characters long',
+                                                validator: this.strongValidator
                                             }
                                         ],
                                     })(<Input.Password />)}
                                 </Form.Item>
-                                <Form.Item label="Confirm Password" hasFeedback>
+                                <Form.Item label="Confirm New Password" hasFeedback>
                                     {getFieldDecorator('confirm', {
                                         rules: [
                                             {

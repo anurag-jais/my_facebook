@@ -8,7 +8,7 @@ import LogIn from '../Views/Login';
 import VerifyRegisterEmail from '../Views/verifyregisteremail';
 import ForgotPassword from '../Views/forgotpass';
 import Recover from '../Views/Recover';
-import Home from '../Views/Home';
+import Home from '../Views/home';
 import ResetPassword from '../Views/ResetPassword';
 
 const Root = ({ store }) => (

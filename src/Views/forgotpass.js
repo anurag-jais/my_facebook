@@ -16,7 +16,8 @@ class ForgotPassword extends Component {
         showotpfield: false,
         isOtpInvalid: false,
         isEmailNotFound: false,
-        errMsg: null
+        errMsg: null,
+        emailDisable: false
     }
 
     emailChangeHandler = (e)=>{
@@ -74,7 +75,8 @@ class ForgotPassword extends Component {
                         }
                         else if(response.data === "Email Searched"){
                             this.setState({
-                                showotpfield: true,   
+                                showotpfield: true,
+                                emailDisable: true   
                             });
                         }
                         else if(response.data === "Incomplete Registration"){
@@ -123,6 +125,7 @@ class ForgotPassword extends Component {
                                 type="email"
                                 placeholder="Email"
                                 onChange = {this.emailChangeHandler}
+                                disabled = {this.state.emailDisable}
                         />)}
                     </Form.Item>
                     {this.state.showotpfield === true ? 

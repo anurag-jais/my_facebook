@@ -21,7 +21,7 @@ const Root = ({ store }) => (
       <Route path="/forgotpass" component={ForgotPassword}/>
       <Route path="/recover" render={props => <Recover {...props} />}/>
       <Route path='/resetpassword' render={props => <ResetPassword {...props} />} />
-      <Route path="/home" component={Home}/>
+      <Route path="/home" render={props => <Home {...props} />}/>
     </Router>
   </Provider>
 )

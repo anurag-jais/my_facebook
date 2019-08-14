@@ -1,38 +1,46 @@
-const Sequelize = require('sequelize');
-const sequelize = require('../Util/databse');
-const express = require('express');
-const adminRoutes = require('../Routes/adminRoutes');
-const loginRoutes = require('../Routes/loginRoutes');
-const homeRoutes = require('../Routes/homeRoutes');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-
-
+const Sequelize = require("sequelize");
+const sequelize = require("../Util/databse");
+const express = require("express");
+const adminRoutes = require("../Routes/adminRoutes");
+const loginRoutes = require("../Routes/loginRoutes");
+const homeRoutes = require("../Routes/homeRoutes");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const multer = require("multer");
 
 //const register_user = require('../Models/user');
 const app = express();
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "assets");
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originFileObj + "-" + Date.now());
+  }
+});
 app.use(cors());
 app.use(express.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(multer({ storage: fileStorage }).single("file"));
 
-app.use('/api/registration', adminRoutes);
-app.use('/api/login', loginRoutes);
-app.use('/api/home', homeRoutes);
+app.use("/api/registration", adminRoutes);
+app.use("/api/login", loginRoutes);
+app.use("/api/home", homeRoutes);
 //app.use('/api/login',adminRoutes);
 
-sequelize.authenticate()
-.then(()=> {
-    console.log("---------------------------------------connecting to the database");
+sequelize.authenticate().then(() => {
+  console.log(
+    "---------------------------------------connecting to the database"
+  );
 });
 sequelize
   .sync()
-  .then(result =>{
-   // console.log(result);
+  .then(result => {
+    // console.log(result);
   })
-  .catch(err=>{
+  .catch(err => {
     console.log(err);
   });
-  
 
 // register_user.create({
 //   firstname: 'Anurag',

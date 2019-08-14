@@ -1,0 +1,21 @@
+.Post {
+  width: 500px;
+  height: 200px;
+  padding: 30px;
+  text-align: center;
+  border: 1px solid #eee;
+  box-shadow: 0 2px 3px #ccc;
+  margin: 8px;
+  box-sizing: border-box;
+}
+.Post:hover,
+.Post:active {
+  background-color: #c0ddf5;
+}
+.Icons {
+  display: flex;
+  justify-content: space-evenly;
+}
+img {
+  background-color: aliceblue;
+}

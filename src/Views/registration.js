@@ -21,6 +21,7 @@ import {
 import { DatePicker } from 'antd';
 import moment from 'moment';
 
+const myDomain = ['@cronj.com','@gmail.com','@google.com'];
 class Registration extends Component {
 
     state = {
@@ -35,7 +36,8 @@ class Registration extends Component {
         isPasswordLengthInvalid: false,
         validatePasswordStatus: 'success',
         errPaswordMsg: null,
-        registeremail: null
+        registeremail: null,
+        isEmailServerInvalid: false 
     };
 
 
@@ -83,7 +85,7 @@ class Registration extends Component {
         }
     };
 
-
+    
     handleSubmit = e => {
         e.preventDefault();
         this.props.form.validateFieldsAndScroll((err, values) => {
@@ -93,7 +95,13 @@ class Registration extends Component {
                     .then(response => {
                         console.log("response data");
                         console.log("======>", response.data);
-                        if (response.data === "User Already Exist") {
+                        if(response.data === "Invalid Email Server"){
+                            console.log('Invalid Email Server');
+                            this.setState({
+                                isEmailServerInvalid : true
+                            });
+                        }
+                        else if (response.data === "User Already Exist") {
                             this.setState({
                                 isUserEmailAlreadyExist: true,
                                 validateEmailStatus: 'error',
@@ -146,7 +154,7 @@ class Registration extends Component {
     strongValidator = (rule,value, callback) =>{
         console.log('running');
         const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-        if(value && this.state.confirmDirty && value.match(strongRegex)){
+        if(value  && strongRegex.test(value)){
             callback();
         }
         else if(value){
@@ -155,8 +163,11 @@ class Registration extends Component {
         else{
             callback();
         }
-        
     }
+
+    // validateDomain = (rule,value,callback) =>{
+    //     if(value && )
+    // }
 
     render() {
         const { Header, Footer, Sider, Content } = Layout;
@@ -256,7 +267,10 @@ class Registration extends Component {
                                             {
                                                 required: true,
                                                 message: 'Please input your E-mail!',
-                                            }
+                                            },
+                                            // {
+                                            //     validator: this.validateDomain
+                                            // }
                                         ],
                                     })(<Input onChange={this.emailChangeHandler}/>)}
 
@@ -284,7 +298,7 @@ class Registration extends Component {
                                 </Form.Item>
                                 <Form.Item label="Password"
                                     hasFeedback>
-                                    {getFieldDecorator('olduserpassword', {
+                                    {getFieldDecorator('userpassword', {
                                         rules: [
                                             {
                                                 required: true,
@@ -300,24 +314,8 @@ class Registration extends Component {
                                         ],
                                     })(<Input.Password />)}
                                 </Form.Item>
-                                <Form.Item label="New Password"
-                                    hasFeedback>
-                                    {getFieldDecorator('olduserpassword', {
-                                        rules: [
-                                            {
-                                                required: true,
-                                                message: 'Please input your password!',
-                                            },
-                                            {
-                                                validator: this.validateToNextPassword,
-                                            },
-                                            {
-                                                validator: this.strongValidator
-                                            }
-                                        ],
-                                    })(<Input.Password />)}
-                                </Form.Item>
-                                <Form.Item label="Confirm New Password" hasFeedback>
+                                
+                                <Form.Item label="Confirm Password" hasFeedback>
                                     {getFieldDecorator('confirm', {
                                         rules: [
                                             {
@@ -384,3 +382,9 @@ const mapDispatchToProps = dispatch => {
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(Registration)); 
+
+
+// export const email = value =>
+//   /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(
+//     value
+//   );
